@@ -8,8 +8,8 @@ import java.util.Date;
  * Created by joshua2 on 9/16/15.
  */
 public abstract class Tweet extends Object implements Tweetable, MyObservable {
-    private String text;
-    protected Date date;
+    private String text;//model
+    protected Date date;//model
 
     public Tweet(String tweet, Date date) throws TweetTooLongException {
         this.setText(tweet);

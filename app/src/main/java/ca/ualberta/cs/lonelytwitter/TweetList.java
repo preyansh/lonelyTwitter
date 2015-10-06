@@ -7,9 +7,9 @@ import java.util.Observer;
  * Created by joshua2 on 9/28/15.
  */
 public class TweetList implements MyObservable, MyObserver {
-    private ArrayList<Tweet> tweets = new ArrayList<Tweet>();
+    private ArrayList<Tweet> tweets = new ArrayList<Tweet>();//model
     private volatile ArrayList<MyObserver> observers
-            = new ArrayList<MyObserver>();
+            = new ArrayList<MyObserver>();//model
 
     private void notifyAllObservers() {
         for (MyObserver observer : observers) {

@@ -30,7 +30,7 @@ public class LonelyTwitterActivity extends Activity implements MyObserver {
     private static final String FILENAME = "file.sav";
     private EditText bodyText;
     private ListView oldTweetsList;
-    private ArrayList<Tweet> tweets;
+    private ArrayList<Tweet> tweets; //view
     private ArrayAdapter<Tweet> adapter;
 
 
@@ -40,71 +40,71 @@ public class LonelyTwitterActivity extends Activity implements MyObserver {
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        super.onCreate(savedInstanceState);//view
+        setContentView(R.layout.main);//view
 
-        bodyText = (EditText) findViewById(R.id.body);
-        Button saveButton = (Button) findViewById(R.id.save);
-        oldTweetsList = (ListView) findViewById(R.id.oldTweetsList);
+        bodyText = (EditText) findViewById(R.id.body);//view
+        Button saveButton = (Button) findViewById(R.id.save);//view
+        oldTweetsList = (ListView) findViewById(R.id.oldTweetsList);//view
 
         saveButton.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                setResult(RESULT_OK);
+                setResult(RESULT_OK);//move to controller
                 String text = bodyText.getText().toString(); // move to controller
                 tweets.add(new NormalTweet(text)); // move to controller
                 saveInFile();  // move to model
-                adapter.notifyDataSetChanged();
+                adapter.notifyDataSetChanged(); //model
             }
         });
     }
 
     @Override
-    protected void onStart() {
+    protected void onStart() {//view
         // TODO Auto-generated method stub
-        super.onStart();
-        loadFromFile();
+        super.onStart();//view
+        loadFromFile();//model
         if (tweets == null) {
-            throw new RuntimeException();
+            throw new RuntimeException();//controller
         }
-        adapter = new ArrayAdapter<Tweet>(this, R.layout.list_item, tweets);
-        oldTweetsList.setAdapter(adapter);
+        adapter = new ArrayAdapter<Tweet>(this, R.layout.list_item, tweets);//view
+        oldTweetsList.setAdapter(adapter);//view
     }
 
-    private void loadFromFile() {
+    private void loadFromFile() {//controller
         try {
-            FileInputStream fis = openFileInput(FILENAME);
-            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
-            Gson gson = new Gson();
+            FileInputStream fis = openFileInput(FILENAME);//controller
+            BufferedReader in = new BufferedReader(new InputStreamReader(fis));//model
+            Gson gson = new Gson();//model
             // Following line based on https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/Gson.html retrieved 2015-09-21
             Type listType = new TypeToken<ArrayList<NormalTweet>>() {
-            }.getType();
-            tweets = gson.fromJson(in, listType);
+            }.getType();//model
+            tweets = gson.fromJson(in, listType);//model
 
-        } catch (FileNotFoundException e) {
-            tweets = new ArrayList<Tweet>();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (FileNotFoundException e) {//controller
+            tweets = new ArrayList<Tweet>();//model
+        } catch (IOException e) {//controller
+            throw new RuntimeException(e);//controller
         }
     }
 
-    private void saveInFile() {
+    private void saveInFile() {//controller
         try {
             FileOutputStream fos = openFileOutput(FILENAME,
-                    0);
-            OutputStreamWriter writer = new OutputStreamWriter(fos);
-            Gson gson = new Gson();
-            gson.toJson(tweets, writer);
-            writer.flush();
-            fos.close();
+                    0);//controller
+            OutputStreamWriter writer = new OutputStreamWriter(fos);//model
+            Gson gson = new Gson();//model
+            gson.toJson(tweets, writer);//controller
+            writer.flush();//controller
+            fos.close();//controller
         } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e);//controller
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e);//controller
         }
     }
 
     public void myNotify(MyObservable observable) {
-        adapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();//model
     }
 }
